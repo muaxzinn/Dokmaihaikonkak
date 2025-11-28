@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ดอกไม้ให้คนกากจากคนเทพ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ฟอนต์แนวมินิมอล + พิกเซลนิด ๆ -->
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      /* โทนสีมินิมอลนุ่ม ๆ */
+      --bg-top: #fff9fb;
+      --bg-bottom: #eef7ff;
+      --phone-shell: #f9f9fb;
+      --phone-border: rgba(0, 0, 0, 0.08);
+      --accent-pink: #ff8fb7;
+      --accent-pink-deep: #ff5e96;
+      --accent-soft: #f7d6e6;
+      --text-main: #333;
+      --text-soft: #777;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Prompt", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+      color: var(--text-main);
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ชั้นกลีบดอกไม้/ซากุระร่วง */
+    .petal-layer {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .petal {
+      position: absolute;
+      top: -10vh;
+      width: 14px;
+      height: 18px;
+      background: radial-gradient(circle at 30% 20%, #ffe7f2 0, #ffa9cf 40%, #ff7aa9 100%);
+      border-radius: 60% 40% 70% 30%;
+      opacity: 0.6;
+      filter: blur(0.2px);
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+      100% {
+        transform: translate3d(0, 115vh, 0) rotate(360deg);
+      }
+    }
+
+    /* เฟรมมือถือแนวไอโฟน */
+    .phone-frame {
+      position: relative;
+      z-index: 1;
+      background: var(--phone-shell);
+      border-radius: 32px;
+      padding: 0.7rem;
+      box-shadow:
+        0 22px 60px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--phone-border);
+      max-width: 420px;
+      width: 100%;
+      aspect-ratio: 9 / 19.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* หน้าจอด้านใน */
+    .phone-screen {
+      position: relative;
+      background: linear-gradient(to bottom, #ffffff, #fef7fb);
+      border-radius: 26px;
+      width: 100%;
+      height: 100%;
+      padding: 1rem 1.2rem 1.2rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* notch เล็ก ๆ */
+    .phone-notch {
+      position: absolute;
+      top: 0.45rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 18px;
+      background: #e7e7f0;
+      border-radius: 50px;
+    }
+
+    /* ส่วนเนื้อหากลางจอ */
+    .screen-inner {
+      margin-top: 1.8rem; /* เผื่อ notch */
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    .tiny-label {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      letter-spacing: 0.02em;
+    }
+
+    .tiny-label span {
+      background: rgba(255, 143, 183, 0.09);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border: 1px solid rgba(255, 143, 183, 0.25);
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-top: 0.5rem;
+    }
+
+    .question-sub {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-top: 0.4rem;
+      line-height: 1.7;
+    }
+
+    .buttons-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.9rem;
+      margin-top: 1.2rem;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 0.75rem 1.4rem;
+      font-family: "Prompt", system-ui, sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease,
+        color 0.18s ease;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
+      background: #f3f3f7;
+      color: var(--text-main);
+      min-width: 96px;
+    }
+
+    #yesBtn {
+      background: var(--accent-pink);
+      color: white;
+      box-shadow: 0 5px 16px rgba(255, 94, 150, 0.45);
+      transform: scale(1);
+    }
+
+    #yesBtn:hover {
+      background: var(--accent-pink-deep);
+      transform: translateY(-1px) scale(1.04);
+      box-shadow: 0 7px 20px rgba(255, 94, 150, 0.55);
+    }
+
+    #noBtn {
+      background: #f5f5f9;
+      color: #555;
+      transform: scale(1);
+    }
+
+    #noBtn:hover {
+      background: #ececf4;
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .hint-text {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      margin-top: 0.6rem;
+      opacity: 0.85;
+    }
+
+    .hint-text span {
+      font-weight: 500;
+      color: var(--accent-pink-deep);
+    }
+
+    /* กล่องข้อความหลังตอบ "ใช่" */
+    .message-box {
+      margin-top: 2.2rem;
+      text-align: center;
+    }
+
+    .message-label {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      margin-bottom: 0.4rem;
+    }
+
+    .message-label strong {
+      color: var(--accent-pink-deep);
+    }
+
+    .message-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      white-space: pre-line;
+      min-height: 4.5rem;
+    }
+
+    .message-text::selection {
+      background: var(--accent-soft);
+    }
+
+    /* ช่อดอกไม้พิกเซล */
+    .bouquet-wrapper {
+      margin-top: 1.8rem;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .bouquet {
+      position: relative;
+      width: 120px;
+      height: 140px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(14px) scale(0.9);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .bouquet.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* ก้านดอกไม้ */
+    .bouquet-stem {
+      position: absolute;
+      bottom: 0;
+      width: 46px;
+      height: 70px;
+      background: linear-gradient(to bottom, #8acb8a, #4f9b5f);
+      border-radius: 18px 18px 40px 40px;
+      box-shadow: 0 6px 0 rgba(102, 153, 102, 0.5);
+    }
+
+    .bouquet-wrap {
+      position: absolute;
+      bottom: 38px;
+      width: 70px;
+      height: 40px;
+      background: linear-gradient(145deg, #ffe1ee, #ffd0e3);
+      border-radius: 50px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .bouquet-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 8px 10px;
+      border-radius: 999px;
+      border: 1px dashed rgba(255, 143, 183, 0.7);
+    }
+
+    /* ดอกไม้พิกเซล */
+    .flower-pixel {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background-image: url("https://opengameart.org/sites/default/files/flowers_4.png");
+      background-size: 448px 192px; /* sprite 14x6 */
+      image-rendering: pixelated;
+      transform: scale(1.9);
+      transform-origin: center bottom;
+      animation: flowerFloat 4.4s ease-in-out infinite;
+    }
+
+    .flower-main {
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%) scale(2.2);
+      background-position: -96px 0; /* เลือกดอกกลาง */
+      animation-delay: -1.1s;
+    }
+
+    .flower-left {
+      bottom: 78px;
+      left: 26%;
+      background-position: -32px 0;
+      animation-duration: 5.3s;
+    }
+
+    .flower-right {
+      bottom: 78px;
+      right: 26%;
+      background-position: -160px 0;
+      animation-duration: 5.6s;
+      animation-delay: -0.9s;
+    }
+
+    .flower-back-left {
+      bottom: 96px;
+      left: 12%;
+      background-position: -64px -32px;
+      opacity: 0.85;
+      animation-duration: 6s;
+      animation-delay: -2s;
+    }
+
+    .flower-back-right {
+      bottom: 96px;
+      right: 10%;
+      background-position: -128px -32px;
+      opacity: 0.85;
+      animation-duration: 6.2s;
+      animation-delay: -1.5s;
+    }
+
+    @keyframes flowerFloat {
+      0%, 100% {
+        transform: translateY(0) scale(1.9);
+      }
+      50% {
+        transform: translateY(-6px) scale(1.9);
+      }
+    }
+
+    .flower-main {
+      animation-name: mainFloat;
+    }
+
+    @keyframes mainFloat {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0) scale(2.2);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-8px) scale(2.2);
+      }
+    }
+
+    /* footer เล็ก ๆ ด้านล่างจอ */
+    .screen-footer {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      text-align: center;
+      padding-top: 0.3rem;
+      border-top: 1px dashed rgba(0, 0, 0, 0.06);
+    }
+
+    .screen-footer span {
+      color: var(--accent-pink-deep);
+      font-weight: 500;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* ปรับ responsive มือถือจริง ๆ */
+    @media (max-width: 480px) {
+      body {
+        padding: 0.8rem 0.4rem;
+      }
+
+      .phone-frame {
+        padding: 0.55rem;
+        border-radius: 26px;
+      }
+
+      .phone-screen {
+        padding: 0.9rem 1rem 1.1rem;
+        border-radius: 22px;
+      }
+
+      .question-title {
+        font-size: 1.02rem;
+      }
+
+      .question-sub {
+        font-size: 0.86rem;
+      }
+
+      button {
+        font-size: 0.84rem;
+        padding: 0.7rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ชั้นกลีบดอกไม้ร่วง -->
+  <div class="petal-layer" id="petalLayer"></div>
+
+  <!-- เฟรมแนวไอโฟน -->
+  <div class="phone-frame">
+    <div class="phone-screen">
+      <div class="phone-notch"></div>
+
+      <div class="screen-inner">
+
+        <!-- กล่องคำถาม -->
+        <div id="questionBox">
+          <div class="tiny-label">
+            <span>
+              • คำถามเล็ก ๆ จากคนเทพ •
+            </span>
+          </div>
+
+          <div class="question-title">
+            อยากรับช่อดอกไม้<br>จากเราหน่อยมั้ย5555656
+          </div>
+
+          <div class="question-sub">
+            อย่ากดไม่เอานะเว้ยยย<br>
+            กดเอาพอนี่ทำนาน55556567 
+          </div>
+
+          <div class="buttons-row">
+            <button id="yesBtn">เอาาาาา</button>
+            <button id="noBtn">ไม่เอาาาา</button>
+          </div>
+
+          <div class="hint-text">
+            เราให้ก่อนที่จะไม่ได้ให้<br>
+            ปุ่ม <span>“ไม่เอาาาา”</span> อย่ากดนะเว้ย แต่ไม่เอาก็ได้ไม่เป็นไรที
+          </div>
+        </div>
+
+        <!-- กล่องข้อความหลังตอบ "ใช่" -->
+        <div id="messageBox" class="hidden">
+          <div class="message-box">
+            <div class="tiny-label">
+              <span>ดอกไม้ให้คนกาก ✿</span>
+            </div>
+            <div class="message-label">
+              
+            </div>
+            <div id="typedText" class="message-text"></div>
+          </div>
+
+          <!-- ช่อดอกไม้พิกเซล -->
+          <div class="bouquet-wrapper">
+            <div class="bouquet" id="bouquet">
+              <div class="bouquet-stem"></div>
+              <div class="bouquet-wrap"></div>
+
+              <div class="flower-pixel flower-main"></div>
+              <div class="flower-pixel flower-left"></div>
+              <div class="flower-pixel flower-right"></div>
+              <div class="flower-pixel flower-back-left"></div>
+              <div class="flower-pixel flower-back-right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-footer">
+        ถ้าเว็บนี้ถูกส่งมาให้คุณ แปลว่าอีกฝ่ายคือ <span>อาหวัง</span> แน่นอน
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- สร้างกลีบดอกไม้ร่วง ----------
+    const petalLayer = document.getElementById("petalLayer");
+
+    function createPetal() {
+      const petal = document.createElement("div");
+      petal.className = "petal";
+
+      const startLeft = Math.random() * 100; // 0 - 100 vw
+      const duration = 8 + Math.random() * 7; // 8 - 15 s
+      const delay = Math.random() * 6; // 0 - 6 s
+      const size = 10 + Math.random() * 10; // 10 - 20 px
+
+      petal.style.left = startLeft + "vw";
+      petal.style.width = size + "px";
+      petal.style.height = (size + 4) + "px";
+      petal.style.animationDuration = duration + "s";
+      petal.style.animationDelay = delay + "s";
+      petal.style.opacity = 0.4 + Math.random() * 0.4;
+
+      petalLayer.appendChild(petal);
+
+      // ลบแล้วสร้างใหม่หลังอนิเมชันจบ เพื่อวนเรื่อย ๆ
+      petal.addEventListener("animationend", () => {
+        petal.remove();
+        createPetal();
+      });
+    }
+
+    // สร้างกลีบประมาณ 28–34 อัน
+    const petalCount = 30;
+    for (let i = 0; i < petalCount; i++) {
+      createPetal();
+    }
+
+    // ---------- ปุ่มใช่/ไม่ + logic ปากไม่ตรงกับใจ ----------
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const questionBox = document.getElementById("questionBox");
+    const messageBox = document.getElementById("messageBox");
+    const typedTextEl = document.getElementById("typedText");
+    const bouquet = document.getElementById("bouquet");
+
+    let noCount = 0;
+    let yesScale = 1;
+    let noScale = 1;
+
+    const message = [
+      "ดอกไม้ให้คนกาก 🌸",
+      "",
+      "แอบมีใจอะดิเลยกดใช่55565656",
+      "เราเขินนะเนี่ยแอบชอบกันหรอ55656",
+      "ขอบคุณที่เอานะ แต่จริงๆไม่อยากให้หรอก5555656 :)"
+    ].join("\n");
+
+    function typeWriter(text, el, speed = 35, callback) {
+      el.textContent = "";
+      let i = 0;
+      function typing() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(typing, speed);
+        } else {
+          if (callback) callback();
+        }
+      }
+      typing();
+    }
+
+    noBtn.addEventListener("click", () => {
+      noCount++;
+
+      yesScale += 0.18;
+      noScale -= 0.18;
+      if (noScale < 0.4) noScale = 0.4;
+
+      yesBtn.style.transform = `scale(${yesScale})`;
+      noBtn.style.transform = `scale(${noScale})`;
+
+      if (noCount >= 3) {
+        noBtn.style.opacity = "0";
+        noBtn.style.transform = `scale(0.3) translateY(10px)`;
+        setTimeout(() => {
+          noBtn.style.display = "none";
+        }, 200);
+      }
+    });
+
+    yesBtn.addEventListener("click", () => {
+      // ซ่อนคำถาม → โชว์กล่องข้อความ
+      questionBox.classList.add("hidden");
+      messageBox.classList.remove("hidden");
+
+      // อนิเมชันพิมพ์ข้อความ
+      typeWriter(message, typedTextEl, 32, () => {
+        setTimeout(() => {
+          bouquet.classList.add("show");
+        }, 350);
+      });
+    });
+  </script>
+</body>
+</html>
